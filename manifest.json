@@ -1,0 +1,47 @@
+{
+  "short_name": "Pillars of fate card tracker",
+  "name": "Pillars of fate card tracker",
+  "description": "App for tracking flipped cards in pillars of fate board game",
+  "start_url": "/pillars-of-fate",
+  "display": "standalone",
+  "theme_color": "#2A2A2A",
+  "background_color": "#2A2A2A",
+  "icons": [
+    {
+      "src": "/pillars-of-fate/images/icons/POF-48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/pillars-of-fate/images/icons/POF-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/pillars-of-fate/images/icons/POF-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/pillars-of-fate/images/icons/POF-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/pillars-of-fate/images/icons/POF-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pillars-of-fate/images/icons/POF-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/pillars-of-fate/images/icons/POF-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait"
+}
