@@ -55,7 +55,7 @@ export default function App() {
                     <div className="card" key={card.id} style={{ gridColumn: card.column, gridRow: card.row }}>
                         <input
                             className="value"
-                            type="text"
+                            type="number"
                             value={card.value}
                             placeholder="0"
                             onChange={e => {
