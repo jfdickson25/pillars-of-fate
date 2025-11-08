@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 import { ReactComponent as FeatherIcon } from './Feather.svg';
 import { ReactComponent as ScorpionIcon } from './Scorpion.svg';
@@ -64,6 +64,14 @@ export default function App() {
                                 setCards(newCards);
                             }}
                         />
+                        {
+                            card.id === 4 || card.id === 5 || card.id === 6 ?
+                            <FontAwesomeIcon onClick={ () => { 
+                                const newCards = cards.filter(c => c.id !== card.id);
+                                setCards(newCards);
+                             }} className="fa-xl" icon={faMinus} color="white" style={{ position: 'relative', top: '-20px', right: '-15px', opacity: 1 }} />
+                            : null
+                        }
                         <div className="icons" style={{ marginBottom: '15px' }}>
                             <FeatherIcon className="feather" style={ card.feathers[0] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 0) }} />
                             <FeatherIcon className="feather" style={ card.feathers[1] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 1) }} />
