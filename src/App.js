@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus, faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus, faRotateRight, faCircleXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 import { ReactComponent as FeatherIcon } from './Feather.svg';
 import { ReactComponent as ScorpionIcon } from './Scorpion.svg';
@@ -8,6 +8,7 @@ export default function App() {
 
     const [activeGods, setActiveGods] = useState([]);
     const [godConfirmed, setGodConfirmed] = useState(false);
+    const [activeChosenGod, setActiveChosenGod] = useState('');
 
     const [cards, setCards] = useState([
         { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] },
@@ -62,6 +63,19 @@ export default function App() {
         <React.Fragment>
             <div id="title-area">
                 <img src={`${process.env.PUBLIC_URL}/images/PillarsOfFateText.svg`} alt="Scales of Fate" id="title-image" />
+            </div>
+            <div id="god-area" style={ activeChosenGod === '' ? { gridTemplateColumns: "repeat(3, 1fr)", width: "50%" } : { gridTemplateColumns: "repeat(4, 1fr)", width: "70%" }}>
+                { godConfirmed && activeGods.map((god, idx) => (
+                    <img 
+                        key={idx} 
+                        src={`${process.env.PUBLIC_URL}/images/God-Icons/${god}-icon.PNG`} alt={god} 
+                        className={ god === activeChosenGod ? 'chosen-god active' : 'chosen-god'} 
+                        onClick={() => {setActiveChosenGod(god)}}  />
+                )) }
+                { 
+                    activeChosenGod === '' ? null :
+                        <FontAwesomeIcon icon={faXmark} className="fa-3x" color="white" onClick={ () => { setActiveChosenGod(''); } } />
+                }
             </div>
             <div id="play-area">
                 {cards.filter(card => card.value !== null).map((card, idx) => (
@@ -123,11 +137,15 @@ export default function App() {
                 }
             </div>
             <div id="reset">
-                <FontAwesomeIcon icon={faRotateRight} size="3x" color="white" onClick={ () => { setCards([
-                    { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] },
-                    { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] },
-                    { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] }
-                ])} } 
+                <FontAwesomeIcon icon={faRotateRight} size="3x" color="white" onClick={ () => { 
+                    setCards([
+                        { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] },
+                        { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] },
+                        { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] }
+                    ]);
+                    setActiveChosenGod(''); 
+                } 
+                } 
                 />
             </div>
             {   !godConfirmed &&

@@ -65,6 +65,16 @@ h1 {
     margin-bottom: 20px;
 }
 
+#god-area {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+}
+
 #god-icons-container {
     position: fixed;
     z-index: 10;
@@ -164,10 +174,15 @@ h1 {
 .god-icon {
     width: 90%;
     border-radius: 50%;
-    box-sizing: border-box;
 }
 
 .active {
     border: 4px solid rgb(255, 174, 0);
     border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.chosen-god {
+    width: 100%;
+    z-index: 5;
 }
