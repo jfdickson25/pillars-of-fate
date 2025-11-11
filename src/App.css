@@ -165,7 +165,7 @@ h1 {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    row-gap: 3px;
+    row-gap: 5px;
     justify-items: center;
     align-items: center;
     box-sizing: border-box;
