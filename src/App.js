@@ -11,14 +11,14 @@ export default function App() {
     const [activeChosenGod, setActiveChosenGod] = useState('');
 
     const [cards, setCards] = useState([
-        { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] },
-        { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] },
-        { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] }
+        { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: 'Hadria' },
+        { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: 'Klar' },
+        { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }
     ]);
 
     // Add a new card with null value
     const addCard = (newCardId, column) => {
-        setCards([...cards, { id: newCardId, value: '', column: column, row: 2, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false] }]);
+        setCards([...cards, { id: newCardId, value: '', column: column, row: 2, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }]);
     };
 
     const updateFeathers = (cardIndex, featherIndex) => {
@@ -64,7 +64,7 @@ export default function App() {
             <div id="title-area">
                 <img src={`${process.env.PUBLIC_URL}/images/PillarsOfFateText.svg`} alt="Scales of Fate" id="title-image" />
             </div>
-            <div id="god-area" style={ activeChosenGod === '' ? { gridTemplateColumns: "repeat(3, 1fr)", width: "50%" } : { gridTemplateColumns: "repeat(4, 1fr)", width: "70%" }}>
+            <div id="god-area" style={ activeChosenGod === '' ? { gridTemplateColumns: "repeat(3, 1fr)", width: "60%" } : { gridTemplateColumns: "repeat(4, 1fr)", width: "80%" }}>
                 { godConfirmed && activeGods.map((god, idx) => (
                     <img 
                         key={idx} 
@@ -78,45 +78,49 @@ export default function App() {
                 }
             </div>
             <div id="play-area">
-                {cards.filter(card => card.value !== null).map((card, idx) => (
-                    <div className="card" key={card.id} style={{ gridColumn: card.column, gridRow: card.row }}>
-                        <input
-                            className="value"
-                            type="number"
-                            value={card.value}
-                            placeholder="0"
-                            onChange={e => {
-                                const newCards = [...cards];
-                                newCards[idx].value = e.target.value;
-                                setCards(newCards);
-                            }}
-                        />
-                        {
-                            card.id === 4 || card.id === 5 || card.id === 6 ?
-                            <FontAwesomeIcon onClick={ () => { 
-                                const newCards = cards.filter(c => c.id !== card.id);
-                                setCards(newCards);
-                             }} className="fa-xl" icon={faMinus} color="white" style={{ position: 'relative', top: '-20px', right: '-15px', opacity: 1 }} />
-                            : null
-                        }
-                        <div className="icons" style={{ marginBottom: '15px' }}>
-                            <FeatherIcon className="feather" style={ card.feathers[0] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 0) }} />
-                            <FeatherIcon className="feather" style={ card.feathers[1] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 1) }} />
-                            <FeatherIcon className="feather" style={ card.feathers[2] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 2) }} />
-                            <FeatherIcon className="feather" style={ card.feathers[3] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 3) }} />
-                            <FeatherIcon className="feather" style={ card.feathers[4] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 4) }} />
-                            <FeatherIcon className="feather" style={ card.feathers[5] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 5) }} />
+                {cards.filter(card => card.value !== null).map((card, idx) => {
+                    return (card.god === null) ? (
+                        <div className="card" key={card.id} style={{ gridColumn: card.column, gridRow: card.row }}>
+                            <input
+                                className="value"
+                                type="number"
+                                value={card.value}
+                                placeholder="0"
+                                onChange={e => {
+                                    const newCards = [...cards];
+                                    newCards[idx].value = e.target.value;
+                                    setCards(newCards);
+                                }}
+                            />
+                            {
+                                card.id === 4 || card.id === 5 || card.id === 6 ?
+                                <FontAwesomeIcon onClick={ () => { 
+                                    const newCards = cards.filter(c => c.id !== card.id);
+                                    setCards(newCards);
+                                }} className="fa-xl" icon={faMinus} color="white" style={{ position: 'relative', top: '-20px', right: '-15px', opacity: 1 }} />
+                                : null
+                            }
+                            <div className="icons" style={{ marginBottom: '10px' }}>
+                                <FeatherIcon className="feather" style={ card.feathers[0] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 0) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[1] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 1) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[2] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 2) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[3] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 3) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[4] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 4) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[5] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 5) }} />
+                            </div>
+                            <div className="icons">
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[0] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 0) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[1] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 1) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[2] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 2) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[3] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 3) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[4] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 4) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[5] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 5) }} />
+                            </div>
                         </div>
-                        <div className="icons">
-                            <ScorpionIcon className="scorpion" style={ card.scorpions[0] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 0) }} />
-                            <ScorpionIcon className="scorpion" style={ card.scorpions[1] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 1) }} />
-                            <ScorpionIcon className="scorpion" style={ card.scorpions[2] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 2) }} />
-                            <ScorpionIcon className="scorpion" style={ card.scorpions[3] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 3) }} />
-                            <ScorpionIcon className="scorpion" style={ card.scorpions[4] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 4) }} />
-                            <ScorpionIcon className="scorpion" style={ card.scorpions[5] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 5) }} />
-                        </div>
-                    </div>
-                ))}
+                    ) : (
+                        <img src={`${process.env.PUBLIC_URL}/images/Gods/${card.god}.png`} alt="God" id="god-card"/>
+                    )
+                })}
                 {
                     // Check for a card with an id of 4, 5, or 6 before rendering the add card divs
                     !cards.some(card => card.id === 4) &&
