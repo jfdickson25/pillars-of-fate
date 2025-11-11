@@ -104,7 +104,7 @@ export default function App() {
                                 <FontAwesomeIcon onClick={ () => { 
                                     const newCards = cards.filter(c => c.id !== card.id);
                                     setCards(newCards);
-                                }} className="fa-xl" icon={faMinus} color="white" style={{ position: 'relative', top: '-20px', right: '-15px', opacity: 1 }} />
+                                }} className="fa-xl minus" icon={faMinus} color="white" />
                                 : null
                             }
                             <div className="icons" style={{ marginBottom: '10px' }}>
