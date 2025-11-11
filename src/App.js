@@ -9,6 +9,7 @@ export default function App() {
     const [activeGods, setActiveGods] = useState([]);
     const [godConfirmed, setGodConfirmed] = useState(false);
     const [activeChosenGod, setActiveChosenGod] = useState('');
+    const [displayGod, setDisplayGod] = useState('');
 
     const [cards, setCards] = useState([
         { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
@@ -86,57 +87,55 @@ export default function App() {
             <div id="play-area">
                 {cards.filter(card => card.value !== null).map((card, idx) => {
                     return (card.god === null) ? (
-                        <React.Fragment key={card.id}>
-                            <div className="card" style={{ gridColumn: card.column, gridRow: card.row }}>
-                                <input
-                                    className="value"
-                                    type="number"
-                                    value={card.value}
-                                    placeholder="0"
-                                    onChange={e => {
-                                        const newCards = [...cards];
-                                        newCards[idx].value = e.target.value;
-                                        setCards(newCards);
-                                    }}
-                                />
-                                {
-                                    card.id === 4 || card.id === 5 || card.id === 6 ?
-                                    <FontAwesomeIcon onClick={ () => { 
-                                        const newCards = cards.filter(c => c.id !== card.id);
-                                        setCards(newCards);
-                                    }} className="fa-xl" icon={faMinus} color="white" style={{ position: 'relative', top: '-20px', right: '-15px', opacity: 1 }} />
-                                    : null
-                                }
-                                <div className="icons" style={{ marginBottom: '10px' }}>
-                                    <FeatherIcon className="feather" style={ card.feathers[0] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 0) }} />
-                                    <FeatherIcon className="feather" style={ card.feathers[1] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 1) }} />
-                                    <FeatherIcon className="feather" style={ card.feathers[2] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 2) }} />
-                                    <FeatherIcon className="feather" style={ card.feathers[3] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 3) }} />
-                                    <FeatherIcon className="feather" style={ card.feathers[4] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 4) }} />
-                                    <FeatherIcon className="feather" style={ card.feathers[5] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 5) }} />
-                                </div>
-                                <div className="icons">
-                                    <ScorpionIcon className="scorpion" style={ card.scorpions[0] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 0) }} />
-                                    <ScorpionIcon className="scorpion" style={ card.scorpions[1] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 1) }} />
-                                    <ScorpionIcon className="scorpion" style={ card.scorpions[2] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 2) }} />
-                                    <ScorpionIcon className="scorpion" style={ card.scorpions[3] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 3) }} />
-                                    <ScorpionIcon className="scorpion" style={ card.scorpions[4] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 4) }} />
-                                    <ScorpionIcon className="scorpion" style={ card.scorpions[5] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 5) }} />
-                                </div>
-                                { activeChosenGod !== '' ? 
-                                    <div className="overlay" 
-                                        onClick={() => { 
-                                            card.god = activeChosenGod;
-                                            setCards([...cards]);
-                                            setActiveChosenGod('');
-                                        }}
-                                    >
-                                        <FontAwesomeIcon icon={faAngleDown} size="2x" color="white" />
-                                    </div> : null }
+                        <div className="card" key={card.idx} style={{ gridColumn: card.column, gridRow: card.row }}>
+                            <input
+                                className="value"
+                                type="number"
+                                value={card.value}
+                                placeholder="0"
+                                onChange={e => {
+                                    const newCards = [...cards];
+                                    newCards[idx].value = e.target.value;
+                                    setCards(newCards);
+                                }}
+                            />
+                            {
+                                card.id === 4 || card.id === 5 || card.id === 6 ?
+                                <FontAwesomeIcon onClick={ () => { 
+                                    const newCards = cards.filter(c => c.id !== card.id);
+                                    setCards(newCards);
+                                }} className="fa-xl" icon={faMinus} color="white" style={{ position: 'relative', top: '-20px', right: '-15px', opacity: 1 }} />
+                                : null
+                            }
+                            <div className="icons" style={{ marginBottom: '10px' }}>
+                                <FeatherIcon className="feather" style={ card.feathers[0] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 0) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[1] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 1) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[2] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 2) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[3] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 3) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[4] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 4) }} />
+                                <FeatherIcon className="feather" style={ card.feathers[5] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 5) }} />
                             </div>
-                        </ React.Fragment>
+                            <div className="icons">
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[0] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 0) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[1] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 1) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[2] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 2) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[3] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 3) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[4] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 4) }} />
+                                <ScorpionIcon className="scorpion" style={ card.scorpions[5] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 5) }} />
+                            </div>
+                            { activeChosenGod !== '' ? 
+                                <div className="card-overlay" 
+                                    onClick={() => { 
+                                        card.god = activeChosenGod;
+                                        setCards([...cards]);
+                                        setActiveChosenGod('');
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={faAngleDown} size="2x" color="white" />
+                                </div> : null }
+                        </div>
                     ) : (
-                        <img src={`${process.env.PUBLIC_URL}/images/Gods/${card.god}.png`} alt="God" id="god-card"/>
+                        <img src={`${process.env.PUBLIC_URL}/images/Gods/${card.god}.png`} alt="God" id="god-card" onClick={() => { setDisplayGod(card.god) }}/>
                     )
                 })}
                 {
@@ -195,6 +194,12 @@ export default function App() {
                         <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Vesper-icon.PNG`} alt="" className={activeGods.some(name => name === "Vesper") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Vesper")}}/>
                         <button id="confirm-gods-button" onClick={ () => { setGodConfirmed(true); } } disabled={ activeGods.length !== 3}>CONFIRM</button>
                     </div>
+                </div>
+            }
+            {
+                displayGod !== '' &&
+                <div id="god-display" onClick={() => { setDisplayGod(''); }}>
+                    <img src={`${process.env.PUBLIC_URL}/images/Gods/${displayGod}.png`} alt="God" id="god-display-card" />
                 </div>
             }
         </React.Fragment>
