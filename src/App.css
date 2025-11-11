@@ -76,13 +76,17 @@ h1 {
     justify-content: center;
     align-items: center;
     column-gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 #god-icons-container {
     position: fixed;
     z-index: 10;
     top: 0;
+    left: 0;
     height: 100vh;
+    width: 100vw;
     background-color: rgba(20, 20, 20, 0.884);
     display: grid;
     justify-items: center;
@@ -91,6 +95,7 @@ h1 {
 
 #god-icons {
     width: 95%;
+    max-width: 600px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     row-gap: 20px;
@@ -159,7 +164,7 @@ h1 {
 .icons {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     row-gap: 3px;
     justify-items: center;
     align-items: center;
@@ -167,15 +172,13 @@ h1 {
 }
 
 .feather {
-    width: 20px;
-    height: 20px;
+    width: 40%;
     margin: 0;
     padding: 0;
 }
 
 .scorpion {
-    width: 18px;
-    height: 18px;
+    width: 28%;
     margin: 0;
     padding: 0;
 }
@@ -214,6 +217,7 @@ h1 {
     position: fixed;
     z-index: 10;
     top: 0;
+    left: 0;
     height: 100vh;
     width: 100vw;
     background-color: rgba(20, 20, 20, 0.884);
@@ -224,4 +228,5 @@ h1 {
 
 #god-display-card {
     max-width: 300px;
+    border-radius: 10px;
 }
