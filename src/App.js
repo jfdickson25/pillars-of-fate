@@ -135,7 +135,7 @@ export default function App() {
                 {
                     // Check for a card with an id of 4, 5, or 6 before rendering the add card divs
                     !cards.some(card => card.id === 4) &&
-                        <div className="add-card" onClick={() => { addCard(4, 0) }} style={{ gridColumn: 1, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '100px', width: '80px', border: '1px dashed #aaa', margin: '8px' }}>
+                        <div className="add-card" onClick={() => { addCard(4, 1) }} style={{ gridColumn: 1, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '100px', width: '80px', border: '1px dashed #aaa', margin: '8px' }}>
                             <FontAwesomeIcon icon={faPlus} size="2x" color="grey" />
                         </div>
                 }
