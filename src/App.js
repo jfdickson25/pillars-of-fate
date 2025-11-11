@@ -131,7 +131,7 @@ export default function App() {
                                 </div> : null }
                         </div>
                     ) : (
-                        <img src={`${process.env.PUBLIC_URL}/images/Gods/${card.god}.png`} alt="God" id="god-card" onClick={() => { setDisplayGod(card.god) }}/>
+                        <img src={`${process.env.PUBLIC_URL}/images/Gods/${card.god}.png`} alt="God" id="god-card" onClick={() => { setDisplayGod(card.god) }} key={card.idx} style={{ gridColumn: card.column, gridRow: card.row }}/>
                     )
                 })}
                 {
