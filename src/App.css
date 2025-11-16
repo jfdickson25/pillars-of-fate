@@ -129,6 +129,13 @@ h1 {
 }
 
 .invisible {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 80px;
+    width: 60px;
+    height: 60px;
+    z-index: -100;
     display: none;
 }
 
