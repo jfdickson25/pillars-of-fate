@@ -60,6 +60,78 @@ h1 {
     transform: translateX(-50%);
 }
 
+.rotate {
+    animation: rotateAnimation .5s linear;
+}
+
+@keyframes rotateAnimation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.sun-image {
+    display: block;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 80px;
+    width: 60px;
+    height: 60px;
+    z-index: -100;
+    animation: slopeRight 3s ease-in-out;
+}
+
+@keyframes slopeRight {
+    0% {
+        opacity: 0;
+        transform: translateX(0px);
+    }
+    50% {
+        opacity: 1;
+        transform: translate3d(120px, -50px, 0);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0);
+    }
+
+}
+
+
+.moon-image {
+    display: block;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 80px;
+    width: 60px;
+    z-index: -100;
+    animation: fadeInLeft 3s ease-in-out;
+}
+
+@keyframes fadeInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(0px);
+    }
+    50% {
+        opacity: 1;
+        transform: translate3d(-170px, -50px, 0);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.invisible {
+    display: none;
+}
+
 #title-area {
     width: 100%;
     display: flex;
@@ -126,7 +198,7 @@ h1 {
 }
 
 #title-image {
-    width: 50%;
+    width: 195px;
 }
 
 #god-card {

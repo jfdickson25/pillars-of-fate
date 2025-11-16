@@ -10,6 +10,8 @@ export default function App() {
     const [godConfirmed, setGodConfirmed] = useState(false);
     const [activeChosenGod, setActiveChosenGod] = useState('');
     const [displayGod, setDisplayGod] = useState('');
+    const [activeCycle, setActiveCycle] = useState({ sun: { active: true, display: false }, moon: { active: false, display: false }});
+    const [rotate, setRotate] = useState(false);
 
     const [cards, setCards] = useState([
         { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
@@ -62,8 +64,29 @@ export default function App() {
 
     return (
         <React.Fragment>
+            <img src={`${process.env.PUBLIC_URL}/images/sun.png`} alt="Sun" className={ (activeCycle.sun.active && activeCycle.sun.display) ? 'sun-image' : 'invisible' } />
+            <img src={`${process.env.PUBLIC_URL}/images/moon.png`} alt="Moon" className={ (activeCycle.moon.active && activeCycle.moon.display) ? 'moon-image' : 'invisible' } />
             <div id="title-area">
-                <img src={`${process.env.PUBLIC_URL}/images/PillarsOfFateText.svg`} alt="Scales of Fate" id="title-image" />
+                <img src={`${process.env.PUBLIC_URL}/images/PillarsOfFateText.svg`} alt="Scales of Fate" id="title-image"
+                    onClick={() => {
+                        // Disable clicking while animation is active
+                        if (activeCycle.sun.display === true || activeCycle.moon.display === true) {
+                            return;
+                        }
+
+                        if(activeCycle.sun.active === true) {
+                            setActiveCycle({ sun: { active: true, display: true }, moon: { active: false, display: false } });
+                            setTimeout(() => {
+                                setActiveCycle({ sun: { active: false, display: false }, moon: { active: true, display: false } });
+                            }, 2800);
+                        } else if (activeCycle.moon.active === true) {
+                            setActiveCycle({ sun: { active: false, display: false }, moon: { active: true, display: true } });
+                            setTimeout(() => {
+                                setActiveCycle({ sun: { active: true, display: false }, moon: { active: false, display: false } });
+                            }, 2800);
+                        }
+                    }}
+                />
             </div>
             <div id="god-area" style={ activeChosenGod === '' ? { gridTemplateColumns: "repeat(3, 1fr)", width: "60%" } : { gridTemplateColumns: "repeat(4, 1fr)", width: "80%" }}>
                 { godConfirmed && activeGods.map((god, idx) => (
@@ -152,13 +175,17 @@ export default function App() {
                 }
             </div>
             <div id="reset">
-                <FontAwesomeIcon icon={faRotateRight} size="3x" color="white" onClick={ () => { 
-                    setCards([
-                        { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
-                        { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
-                        { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }
-                    ]);
-                    setActiveChosenGod(''); 
+                <FontAwesomeIcon icon={faRotateRight} size="3x" color="white" className={ rotate ? 'rotate' : '' } onClick={ () => { 
+                    setRotate(true);
+                    setTimeout(() => {
+                        setRotate(false);
+                        setCards([
+                            { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
+                            { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
+                            { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }
+                        ]);
+                        setActiveChosenGod('');
+                    }, 500);
                 } 
                 } 
                 />
