@@ -75,7 +75,7 @@ h1 {
 
 .sun-image {
     display: block;
-    position: fixed;
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: 80px;
@@ -88,11 +88,11 @@ h1 {
 @keyframes slopeRight {
     0% {
         opacity: 0;
-        transform: translateX(0px);
+        transform: translate3d(0, 0, 0);
     }
     50% {
         opacity: 1;
-        transform: translate3d(120px, -50px, 0);
+        transform: translate3d(190%, -50px, 0);
     }
     100% {
         opacity: 0;
@@ -104,7 +104,7 @@ h1 {
 
 .moon-image {
     display: block;
-    position: fixed;
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: 80px;
@@ -116,11 +116,11 @@ h1 {
 @keyframes fadeInLeft {
     0% {
         opacity: 0;
-        transform: translateX(0px);
+        transform: translate3d(0, 0, 0);
     }
     50% {
         opacity: 1;
-        transform: translate3d(-170px, -50px, 0);
+        transform: translate3d(-290%, -50px, 0);
     }
     100% {
         opacity: 0;
@@ -134,8 +134,8 @@ h1 {
 
 #title-area {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    justify-items: center;
     align-items: center;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -146,7 +146,7 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    justify-content: center;
+    justify-items: center;
     align-items: center;
     column-gap: 20px;
     margin-top: 30px;
