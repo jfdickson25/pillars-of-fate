@@ -74,7 +74,13 @@ export default function App() {
                             return;
                         }
 
-                        if(activeCycle.sun.active === true) {
+                        if (activeCycle.sun.active === true && activeCycle.moon.active === true) {
+                            setActiveCycle({ sun: { active: true, display: true }, moon: { active: true, display: true } });
+                            setTimeout(() => {
+                                setActiveCycle({ sun: { active: true, display: false }, moon: { active: false, display: false } });
+                            }, 2800);
+                        }
+                        else if(activeCycle.sun.active === true) {
                             setActiveCycle({ sun: { active: true, display: true }, moon: { active: false, display: false } });
                             setTimeout(() => {
                                 setActiveCycle({ sun: { active: false, display: false }, moon: { active: true, display: false } });
@@ -82,7 +88,7 @@ export default function App() {
                         } else if (activeCycle.moon.active === true) {
                             setActiveCycle({ sun: { active: false, display: false }, moon: { active: true, display: true } });
                             setTimeout(() => {
-                                setActiveCycle({ sun: { active: true, display: false }, moon: { active: false, display: false } });
+                                setActiveCycle({ sun: { active: true, display: false }, moon: { active: true, display: false } });
                             }, 2800);
                         }
                     }}
