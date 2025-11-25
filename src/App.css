@@ -173,7 +173,7 @@ h1 {
     width: 95%;
     max-width: 600px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     row-gap: 20px;
     justify-items: center;
     align-items: center;
@@ -191,7 +191,7 @@ h1 {
     background-color: #9F3932;
     border: none;
     border-radius: 5px;
-    grid-column: span 4;
+    grid-column: 2 / 8;
 }
 
 #confirm-gods-button:disabled {
@@ -261,6 +261,7 @@ h1 {
 .god-icon {
     width: 90%;
     border-radius: 50%;
+    grid-column: span 2;
 }
 
 .active {

@@ -219,6 +219,9 @@ export default function App() {
                         <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Steward-icon.PNG`} alt="" className={activeGods.some(name => name === "Steward") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Steward")}}/>
                         <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Tormentor-icon.PNG`} alt="" className={activeGods.some(name => name === "Tormentor") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Tormentor")}}/>
                         <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Vesper-icon.PNG`} alt="" className={activeGods.some(name => name === "Vesper") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Vesper")}}/>
+                        <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Avisar-icon.PNG`} alt="" className={activeGods.some(name => name === "Avisar") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Avisar")}} style={{gridColumn: "2/4"}}/>
+                        <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Senca-icon.PNG`} alt="" className={activeGods.some(name => name === "Senca") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Senca")}} style={{gridColumn: "4/6"}}/>
+                        <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Servants-icon.PNG`} alt="" className={activeGods.some(name => name === "Servants") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Servants")}} style={{gridColumn: "6/8"}}/>
                         <button id="confirm-gods-button" onClick={ () => { setGodConfirmed(true); } } disabled={ activeGods.length !== 3}>CONFIRM</button>
                     </div>
                 </div>
