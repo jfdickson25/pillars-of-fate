@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/pillars-of-fate/static/css/main.5ee1bfc6.css",
-    "main.js": "/pillars-of-fate/static/js/main.c056b72f.js",
+    "main.js": "/pillars-of-fate/static/js/main.599b9c8d.js",
     "index.html": "/pillars-of-fate/index.html",
     "main.5ee1bfc6.css.map": "/pillars-of-fate/static/css/main.5ee1bfc6.css.map",
-    "main.c056b72f.js.map": "/pillars-of-fate/static/js/main.c056b72f.js.map"
+    "main.599b9c8d.js.map": "/pillars-of-fate/static/js/main.599b9c8d.js.map"
   },
   "entrypoints": [
     "static/css/main.5ee1bfc6.css",
-    "static/js/main.c056b72f.js"
+    "static/js/main.599b9c8d.js"
   ]
 }
