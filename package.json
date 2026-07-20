@@ -1,7 +1,7 @@
 {
   "name": "pillars-of-fate",
   "version": "0.0.1",
-  "homepage": "https://jordandickson.github.io/pillars-of-fate/",
+  "homepage": "https://jfdickson25.github.io/pillars-of-fate/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
