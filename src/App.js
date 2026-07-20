@@ -1,27 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus, faRotateRight, faXmark, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus, faRotateRight, faXmark, faAngleDown, faPlay } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
-import { ReactComponent as FeatherIcon } from './Feather.svg';
-import { ReactComponent as ScorpionIcon } from './Scorpion.svg';
+
+const initialCards = [
+    { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
+    { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
+    { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }
+];
+
+const initialCycle = { sun: { active: true, display: false }, moon: { active: false, display: false } };
+const storageKeys = {
+    cards: 'cards',
+    activeGods: 'activeGods',
+    godConfirmed: 'godConfirmed',
+    activeChosenGod: 'activeChosenGod',
+    displayGod: 'displayGod',
+    activeCycle: 'activeCycle'
+};
+
 export default function App() {
 
-    const [activeGods, setActiveGods] = useState([]);
-    const [godConfirmed, setGodConfirmed] = useState(false);
-    const [activeChosenGod, setActiveChosenGod] = useState('');
-    const [displayGod, setDisplayGod] = useState('');
-    const [activeCycle, setActiveCycle] = useState({ sun: { active: true, display: false }, moon: { active: false, display: false }});
+    const [activeGods, setActiveGods] = useState(() => {
+        const savedGods = typeof window !== 'undefined' ? localStorage.getItem(storageKeys.activeGods) : null;
+        return savedGods ? JSON.parse(savedGods) : [];
+    });
+    const [godConfirmed, setGodConfirmed] = useState(() => {
+        const savedConfirmed = typeof window !== 'undefined' ? localStorage.getItem(storageKeys.godConfirmed) : null;
+        return savedConfirmed ? JSON.parse(savedConfirmed) : false;
+    });
+    const [activeChosenGod, setActiveChosenGod] = useState(() => {
+        const savedChosenGod = typeof window !== 'undefined' ? localStorage.getItem(storageKeys.activeChosenGod) : null;
+        return savedChosenGod ? JSON.parse(savedChosenGod) : '';
+    });
+    const [displayGod, setDisplayGod] = useState(() => {
+        const savedDisplayGod = typeof window !== 'undefined' ? localStorage.getItem(storageKeys.displayGod) : null;
+        return savedDisplayGod ? JSON.parse(savedDisplayGod) : '';
+    });
+    const [activeCycle, setActiveCycle] = useState(() => {
+        const savedCycle = typeof window !== 'undefined' ? localStorage.getItem(storageKeys.activeCycle) : null;
+        return savedCycle ? JSON.parse(savedCycle) : initialCycle;
+    });
     const [rotate, setRotate] = useState(false);
+    const [play, setPlay] = useState(false);
 
-    const [cards, setCards] = useState([
-        { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
-        { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
-        { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }
-    ]);
+    const [cards, setCards] = useState(() => {
+        const savedCards = typeof window !== 'undefined' ? localStorage.getItem(storageKeys.cards) : null;
+        return savedCards ? JSON.parse(savedCards) : initialCards;
+    });
+
+    useEffect(() => {
+        localStorage.setItem(storageKeys.cards, JSON.stringify(cards));
+    }, [cards]);
+
+    useEffect(() => {
+        localStorage.setItem(storageKeys.activeGods, JSON.stringify(activeGods));
+    }, [activeGods]);
+
+    useEffect(() => {
+        localStorage.setItem(storageKeys.godConfirmed, JSON.stringify(godConfirmed));
+    }, [godConfirmed]);
+
+    useEffect(() => {
+        if (activeChosenGod) {
+            localStorage.setItem(storageKeys.activeChosenGod, JSON.stringify(activeChosenGod));
+        } else {
+            localStorage.removeItem(storageKeys.activeChosenGod);
+        }
+    }, [activeChosenGod]);
+
+    useEffect(() => {
+        if (displayGod) {
+            localStorage.setItem(storageKeys.displayGod, JSON.stringify(displayGod));
+        } else {
+            localStorage.removeItem(storageKeys.displayGod);
+        }
+    }, [displayGod]);
+
+    useEffect(() => {
+        localStorage.setItem(storageKeys.activeCycle, JSON.stringify(activeCycle));
+    }, [activeCycle]);
 
     // Add a new card with null value
     const addCard = (newCardId, column) => {
-        setCards([...cards, { id: newCardId, value: '', column: column, row: 2, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }]);
+        setCards(prevCards => [...prevCards, { id: newCardId, value: '', column: column, row: 2, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }]);
     };
 
     const updateFeathers = (cardIndex, featherIndex) => {
@@ -53,13 +115,15 @@ export default function App() {
     };
 
     const setGods = (godName) => {
-        if (activeGods.includes(godName)) {
-            setActiveGods(activeGods.filter(name => name !== godName));
-        } else {
-            if(activeGods.length < 3) {
-                setActiveGods([...activeGods, godName]);
+        setActiveGods(prevActiveGods => {
+            if (prevActiveGods.includes(godName)) {
+                return prevActiveGods.filter(name => name !== godName);
             }
-        }
+            if (prevActiveGods.length < 3) {
+                return [...prevActiveGods, godName];
+            }
+            return prevActiveGods;
+        });
     };
 
     return (
@@ -104,8 +168,9 @@ export default function App() {
                             if(cards.some((card) => card.god !== null)) {
                                 return;
                             } else {
-                                setActiveChosenGod(god)}}
+                                setActiveChosenGod(god);
                             }
+                        }}
                         />
                 )) }
                 { 
@@ -137,20 +202,20 @@ export default function App() {
                                 : null
                             }
                             <div className="icons" style={{ marginBottom: '10px' }}>
-                                <FeatherIcon className="feather" style={ card.feathers[0] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 0) }} />
-                                <ScorpionIcon className="scorpion" style={ card.scorpions[0] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 0) }} />
-                                <FeatherIcon className="feather" style={ card.feathers[1] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 1) }} />          
-                                <ScorpionIcon className="scorpion" style={ card.scorpions[1] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 1) }} />
-                                <FeatherIcon className="feather" style={ card.feathers[2] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 2) }} />
-                                <ScorpionIcon className="scorpion" style={ card.scorpions[2] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 2) }} />
-                                <FeatherIcon className="feather" style={ card.feathers[3] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 3) }} />
-                                <ScorpionIcon className="scorpion" style={ card.scorpions[3] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 3) }} />
+                                <img src={`${process.env.PUBLIC_URL}/images/Feather.svg`} className="feather" style={ card.feathers[0] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 0) }} />
+                                <img src={`${process.env.PUBLIC_URL}/images/Scorpion.svg`} className="scorpion" style={ card.scorpions[0] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 0) }} />
+                                <img src={`${process.env.PUBLIC_URL}/images/Feather.svg`} className="feather" style={ card.feathers[1] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 1) }} />          
+                                <img src={`${process.env.PUBLIC_URL}/images/Scorpion.svg`} className="scorpion" style={ card.scorpions[1] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 1) }} />
+                                <img src={`${process.env.PUBLIC_URL}/images/Feather.svg`} className="feather" style={ card.feathers[2] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 2) }} />
+                                <img src={`${process.env.PUBLIC_URL}/images/Scorpion.svg`} className="scorpion" style={ card.scorpions[2] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 2) }} />
+                                <img src={`${process.env.PUBLIC_URL}/images/Feather.svg`} className="feather" style={ card.feathers[3] ? { color: '#d6b85fff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateFeathers(idx, 3) }} />
+                                <img src={`${process.env.PUBLIC_URL}/images/Scorpion.svg`} className="scorpion" style={ card.scorpions[3] ? { color: '#5c948eff' } : { color: 'white', opacity: .2 }} onClick={ () => { updateScorpions(idx, 3) }} />
                             </div>
                             { activeChosenGod !== '' ? 
                                 <div className="card-overlay" 
                                     onClick={() => { 
-                                        card.god = activeChosenGod;
-                                        setCards([...cards]);
+                                        const updatedCards = cards.map((currentCard) => currentCard.id === card.id ? { ...currentCard, god: activeChosenGod } : currentCard);
+                                        setCards(updatedCards);
                                         setActiveChosenGod('');
                                     }}
                                 >
@@ -191,9 +256,33 @@ export default function App() {
                             { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }
                         ]);
                         setActiveChosenGod('');
+                        localStorage.removeItem(storageKeys.activeChosenGod);
+                        localStorage.removeItem(storageKeys.cards);
                     }, 500);
                 } 
                 } 
+                />
+            </div>
+            <div id="new-game">
+                <FontAwesomeIcon icon={faPlay} size="lg"
+                    className={ play ? 'play' : '' }
+                    onClick={() => {
+                        setPlay(true);
+
+                        setTimeout(() => {
+                            setActiveGods([]);
+                            setGodConfirmed(false);
+                            setActiveChosenGod('');
+                            setDisplayGod('');
+                            setActiveCycle(initialCycle);
+                            localStorage.removeItem(storageKeys.activeGods);
+                            localStorage.removeItem(storageKeys.godConfirmed);
+                            localStorage.removeItem(storageKeys.activeChosenGod);
+                            localStorage.removeItem(storageKeys.displayGod);
+                            localStorage.removeItem(storageKeys.activeCycle);
+                            setPlay(false);
+                        }, 500);
+                    }}
                 />
             </div>
             {   !godConfirmed &&
@@ -222,13 +311,21 @@ export default function App() {
                         <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Avisar-icon.PNG`} alt="" className={activeGods.some(name => name === "Avisar") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Avisar")}} style={{gridColumn: "2/4"}}/>
                         <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Senca-icon.PNG`} alt="" className={activeGods.some(name => name === "Senca") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Senca")}} style={{gridColumn: "4/6"}}/>
                         <img src={`${process.env.PUBLIC_URL}/images/God-Icons/Servants-icon.PNG`} alt="" className={activeGods.some(name => name === "Servants") ? "god-icon active" : "god-icon"} onClick={() => {setGods("Servants")}} style={{gridColumn: "6/8"}}/>
-                        <button id="confirm-gods-button" onClick={ () => { setGodConfirmed(true); } } disabled={ activeGods.length !== 3}>CONFIRM</button>
+                        <button id="confirm-gods-button" 
+                            onClick={ () => { 
+                                setGodConfirmed(true); 
+                            }} 
+                            disabled={ activeGods.length !== 3}>
+                                CONFIRM
+                        </button>
                     </div>
                 </div>
             }
             {
                 displayGod !== '' &&
-                <div id="god-display" onClick={() => { setDisplayGod(''); }}>
+                <div id="god-display" onClick={() => { 
+                    setDisplayGod('');
+                }}>
                     <img src={`${process.env.PUBLIC_URL}/images/Gods/${displayGod}.png`} alt="God" id="god-display-card" />
                 </div>
             }
