@@ -275,11 +275,17 @@ export default function App() {
                             setActiveChosenGod('');
                             setDisplayGod('');
                             setActiveCycle(initialCycle);
+                            setCards([
+                                { id: 1, value: '', column: 1, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
+                                { id: 2, value: '', column: 2, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null },
+                                { id: 3, value: '', column: 3, row: 1, feathers: [false, false, false, false, false, false], scorpions: [false, false, false, false, false, false], god: null }
+                            ]);
                             localStorage.removeItem(storageKeys.activeGods);
                             localStorage.removeItem(storageKeys.godConfirmed);
                             localStorage.removeItem(storageKeys.activeChosenGod);
                             localStorage.removeItem(storageKeys.displayGod);
                             localStorage.removeItem(storageKeys.activeCycle);
+                            localStorage.removeItem(storageKeys.cards);
                             setPlay(false);
                         }, 500);
                     }}
